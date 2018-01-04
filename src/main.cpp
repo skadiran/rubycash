@@ -3219,7 +3219,7 @@ bool LoadBlockIndex()
     if (fTestNet)
     {
 #ifdef TESTING
-        hashGenesisBlock = uint256("00008d0d88095d31f6dbdbcf80f6e51f71adf2be15740301f5e05cc0f3b2d2c0");
+        hashGenesisBlock = uint256("0x00");
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 15);
         nStakeMinAge = 60 * 60 * 24; // test net min age is 1 day
         nCoinbaseMaturity = 60;
@@ -3268,9 +3268,10 @@ bool InitBlockIndex() {
         //   vMerkleTree: 4a5e1e
 
         // Genesis block
-        const char* pszTimestamp = "Matonis 07-AUG-2012 Parallel Currencies And The Roadmap To Monetary Freedom";
+        //const char* pszTimestamp = "Matonis 07-AUG-2012 Parallel Currencies And The Roadmap To Monetary Freedom";
+        const char* pszTimestamp =   "NYSE files to list bitcoin ETFs, bringing crypto a step closer to mainstream";
         CTransaction txNew;
-        txNew.nTime = 1345083810;
+        txNew.nTime = 1514417409;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(9999) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -3280,14 +3281,14 @@ bool InitBlockIndex() {
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1345084287;
-        block.nBits    = bnProofOfWorkLimit.GetCompact();
-        block.nNonce   = 2179302059u;
+        block.nTime    = 1514417409;
+        block.nBits    = 0x1d00ffff;//bnProofOfWorkLimit.GetCompact();
+        block.nNonce   = 416425970;
 
         if (fTestNet)
         {
-            block.nTime    = 1345090000;
-            block.nNonce   = 122894938;
+            block.nTime    = 1514417409;
+            block.nNonce   = 416425970;
         }
 
 #ifdef TESTING
@@ -3307,8 +3308,22 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x3c2d8f85fab4d17aac558cc648a1a58acff0de6deb890c29985690052c5993c2"));
+        assert(block.hashMerkleRoot == uint256("0xb4ccb8de642822e98cb54d9bc328752284b82aea5e9842b0594b598344d5fa74"));
         block.print();
+        /*CBigNum bnTarget;
+        bnTarget.SetCompact(block.nBits);
+        while ( hash > bnTarget.getuint256())
+        {
+            if (block.nNonce % 1048576 == 0)
+                printf("n=%dM hash=%s\n", block.nNonce / 1048576,
+                       block.GetHash().ToString().c_str());
+            block.nNonce++;
+            hash = block.GetHash();
+        }
+        printf("nNonce=%d hash=%s\n", block.nNonce,
+                       hash.ToString().c_str());
+         //printf("nonce=%d hash=%s\n", )
+        */
         assert(hash == hashGenesisBlock);
         // ppcoin: check genesis block
         {
